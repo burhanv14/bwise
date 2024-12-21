@@ -20,30 +20,25 @@ using namespace std;
 
 void solve()
 {
-    inNvec;
-    unordered_map<ll, ll> mp;
-    for (auto num : arr) {
-        mp[num]++;
+    vl arr(3);
+    civ(arr);
+    ll a = arr[0];
+    ll b = arr[1];
+    ll c = arr[2];
+
+    if(a+c == 2*b)
+    {
+        yes;
+        return;
     }
-
-    ll maxm = 1;
-    for (auto it : mp) {
-        maxm = max(maxm, it.second);
-    }
-
-    ll tot = 0;
-    ll occ = maxm;
-    ll rem = n - occ;
-
-    while (occ < n) {
-        tot += 1;
-        tot += min(occ, rem);
-        rem -= min(occ, rem);
-        occ = min(2 * occ, n);  
-    }
-
-    cout << tot;
-    eline;
+    if(((2 * b - c)/a)>0 && (2*b-c)%a==0)
+        yes;
+    else if(((2 * b - a)/c)>0 && (2*b-a)%c==0)
+        yes;
+    else if(((a+c)/2*b)>0 && (a+c)%(2*b)==0)
+        yes;
+    else
+        no;
 }
 
 int main()

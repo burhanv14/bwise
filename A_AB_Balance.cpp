@@ -1,4 +1,4 @@
-//Code by Burhanuddin Vora - 22ucc123@lnmiit.ac.in
+//Code by Burhan Vora - 22ucc123@lnmiit.ac.in
 #include<bits/stdc++.h>
 using namespace std;
 #define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -20,30 +20,17 @@ using namespace std;
 
 void solve()
 {
-    inNvec;
-    unordered_map<ll, ll> mp;
-    for (auto num : arr) {
-        mp[num]++;
+    string s;
+    cin>>s;
+    ll n = s.length();
+    if(s[0] == s[n-1])
+        cout<<s<<endl;
+    else
+    {
+        s[0] = s[n-1];
+        cout<<s<<endl;
+        
     }
-
-    ll maxm = 1;
-    for (auto it : mp) {
-        maxm = max(maxm, it.second);
-    }
-
-    ll tot = 0;
-    ll occ = maxm;
-    ll rem = n - occ;
-
-    while (occ < n) {
-        tot += 1;
-        tot += min(occ, rem);
-        rem -= min(occ, rem);
-        occ = min(2 * occ, n);  
-    }
-
-    cout << tot;
-    eline;
 }
 
 int main()
