@@ -1,6 +1,11 @@
 //Code by Burhan Vora - 22ucc123@lnmiit.ac.in
 #include<bits/stdc++.h>
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
 using namespace std;
+using namespace __gnu_pbds;
+typedef tree<long long,null_type,less<long long>,rb_tree_tag,tree_order_statistics_node_update> pbds;
+//st.find_by_order(x) || st.order_of_key(x)
 #define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #define ll long long
 #define civ(v) for(auto i=0;i<v.size();i++) cin>>v[i]
@@ -18,18 +23,12 @@ using namespace std;
 #define ppi pair<int,pair<int,int>>
 #define inNvec inputn;vl arr(n);civ(arr);
 
+
 void solve()
 {
-    inNvec;
-    if(n==0)
-      return;
-    ll maxm = arr[0];
-    for(int i=0;i<n;i++)
-    {
-       maxm = (maxm&arr[i]);
-    }
-    cout<<maxm;
-    eline;
+  ll n;
+  cin>>n;
+  
 }
 
 int main()
