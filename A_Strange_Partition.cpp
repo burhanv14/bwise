@@ -11,6 +11,14 @@ typedef tree<long long,null_type,less<long long>,rb_tree_tag,tree_order_statisti
 #define civ(v) for(auto i=0;i<v.size();i++) cin>>v[i]
 #define vi vector<int>
 #define vl vector<long long>
+#define usi unordered_set <int>
+#define usll unordered_set <long long>
+#define si set<int>
+#define sll set<long long>
+#define umii unordered_map <int,int>
+#define mii map<int,int>
+#define umll unordered_map <long long,long long>
+#define mll map<long long,long long>
 #define forn(s,n) for(auto i=s;i<n;i++)
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
@@ -25,30 +33,22 @@ typedef tree<long long,null_type,less<long long>,rb_tree_tag,tree_order_statisti
 
 void solve()
 {
-  ll n;
-        cin>>n;
-        if(n & 1){
-            yes;
+    ll n,x;
+    ll minAns = 0, maxAns = 0, sum = 0;
+        cin>>n>>x;
+        vector<ll> a;
+        ll c ;
+        for(ll i=0; i<n; i++){
+            cin>>c;
+            a.emplace_back(c);
+            sum += c;
+            maxAns += c / x;
+            if(c % x != 0)maxAns++;
         }
-        else{
-            bool ok = false;
-            ll div = n;
-            while(div > 2){
-                div /= 2;
-                if(div & 1){
-                    if(n % div == 0){
-                        ok = true;
-                        break;
-                    }
-                }
-            }
-            if(ok){
-                yes;
-            }
-            else{
-                no;
-            }
-        }
+        minAns = (sum / x);
+        if(sum % x != 0)
+            minAns++;
+        cout<<minAns<<" "<<maxAns<<endl;
 }
 
 int main()

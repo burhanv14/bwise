@@ -11,44 +11,43 @@ typedef tree<long long,null_type,less<long long>,rb_tree_tag,tree_order_statisti
 #define civ(v) for(auto i=0;i<v.size();i++) cin>>v[i]
 #define vi vector<int>
 #define vl vector<long long>
+#define usi unordered_set <int>
+#define usll unordered_set <long long>
+#define si set<int>
+#define sll set<long long>
+#define umii unordered_map <int,int>
+#define mii map<int,int>
+#define umll unordered_map <long long,long long>
+#define mll map<long long,long long>
 #define forn(s,n) for(auto i=s;i<n;i++)
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
 #define con continue
 #define eline cout<<endl
 #define coutvec(arr,j,n) for(int i=j;i<n;i++) cout<<arr[i]<<" "
-#define inputn ll n;cin>>n;
 #define maxheap priority_queue <int> 
 #define minheap priority_queue <int,vector<int>,greater<int>>
 #define ppi pair<int,pair<int,int>>
-#define inNvec inputn;vl arr(n);civ(arr);
+#define pair<int,int> pii
+#define emplace_back pb
 
 void solve()
 {
-  ll n;
-        cin>>n;
-        if(n & 1){
-            yes;
-        }
-        else{
-            bool ok = false;
-            ll div = n;
-            while(div > 2){
-                div /= 2;
-                if(div & 1){
-                    if(n % div == 0){
-                        ok = true;
-                        break;
-                    }
-                }
-            }
-            if(ok){
-                yes;
-            }
-            else{
-                no;
-            }
-        }
+    ll n,k;
+    cin>>n>>k;
+    vl arr(n*k);
+    civ(arr);
+    ll sum = 0;
+    int eles = floor(double(n)/2.0);
+    int i = n*k-1 - eles;
+    while(k > 0)
+    {
+      k--;
+      sum += arr[i];
+      i = i - (eles+1);
+    }
+    cout<<sum;
+    eline;
 }
 
 int main()
