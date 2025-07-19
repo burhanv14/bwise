@@ -17,7 +17,7 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define sll               set<long long>
 #define umii              unordered_map <int,int>
 #define mii               map<int,int>
-#define umll              unordered_map <long long,long long>
+#define umll              unordered_map <long long,long long>2 2
 #define mll               map<long long,long long>
 #define forn(s,n)         for(auto i=s;i<n;i++)
 #define yes               cout<<"YES"<<endl
@@ -34,16 +34,33 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 
-const int MOD=1e9+7;
+bool findPrimes(int n){
+    for(int i=2;i<=sqrt(n);i++){
+        if(i!=n && n%i==0){
+            return false;
+        }
+    }
+    return true;
+}
 
 void solve(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
-    eline;
+    int n;
+    cin>>n;
+
+    if(findPrimes(n)){
+        cout<<1<<" "<<n-1;
+        eline;
+        return;
+    }
+    for(int i=2;i<=n/2;i++){
+        if(n%i==0){
+            int a = n/i;
+            int b = n-a;
+            cout<<min(a,b)<<" "<<max(a,b);
+            eline;
+            return;
+        }
+    }
 }
 
 int main()

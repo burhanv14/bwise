@@ -33,17 +33,45 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+ll mod = 998244353;
 
-const int MOD=1e9+7;
+ll getWays(ll n){
+    ll prod = 1;
+    for(ll i = 2;i<=n;i++){
+        prod = (prod*i)%mod;
+    }
+    return prod;
+}
 
 void solve(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
-    eline;
+        string str;
+        cin >> str;
+        ll seg = 1; 
+        ll n = str.length();
+        ll len = 1;
+        ll op = 0;
+        for (ll i = 0; i + 1 < n; i++) {
+            if(str[i] != str[i + 1]) {
+                seg = (seg % mod * len % mod) % mod;
+                op += len - 1;
+                len = 1;
+            } else {
+                len++;
+            }
+        }
+        if(len > 1) {
+                seg = (seg % mod * len % mod) % mod;
+            op += len - 1;
+        }
+        if(op == 0) {
+            cout << "0 1" << '\n';
+            return;
+        }
+
+        for (ll i = 1; i <= op; i++) {
+            seg = (seg % mod * i % mod) % mod;
+        }
+        cout << op << ' ' << seg << '\n';
 }
 
 int main()

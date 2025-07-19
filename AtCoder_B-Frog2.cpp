@@ -33,16 +33,21 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-const int MOD=1e9+7;
-
 void solve(){
     ll n,k;
     cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
+    vl a(n);
+    civ(a);
+
+    vl dp(n,INT_MAX);
+    dp[0] = 0;
+    for(ll i=1;i<n;i++){
+        for(ll j=i-1;j>=max(0LL,i-k);j--){
+            dp[i] = min(dp[i], dp[j] + abs(a[i]-a[j]));
+        }
+    }
+
+    cout<<dp[n-1];
     eline;
 }
 
@@ -50,7 +55,7 @@ int main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+//   cin>>t;
   while(t--){
     solve();
   }

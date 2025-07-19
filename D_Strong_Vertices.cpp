@@ -33,16 +33,38 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-const int MOD=1e9+7;
-
 void solve(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
+    ll n;
+    cin>>n;
+    vl a(n);
+    civ(a);
+    
+    forn(0,n){
+        ll x;
+        cin>>x;
+        a[i] = a[i] - x;
+    }
+
+    vector <pll> diff(n);
+    forn(0,n){
+        diff[i].first = a[i];
+        diff[i].second = i+1;
+    }
+
+    sort(all(diff),greater<pll>());
+
+    ll curr = diff[0].first;
+    ll ct = 0;
+    vl ans;
+    forn(0,n){
+        if(diff[i].first != curr)   break;
+        ct++;
+        ans.pb(diff[i].second);
+    }
+    cout<<ct;
+    eline;
+    sort(all(ans));
+    coutvec(ans);
     eline;
 }
 

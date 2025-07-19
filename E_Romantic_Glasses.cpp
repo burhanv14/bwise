@@ -33,17 +33,31 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-const int MOD=1e9+7;
-
 void solve(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
-    eline;
+    int n;
+    cin>>n;
+    vi a(n);
+    civ(a);
+
+    forn(0,n){
+        if(!(i&1)){
+            a[i] *= -1;
+        }
+    }
+
+    ll sum = 0;
+    mll mp;
+    mp[0] = 1;
+    forn(0,n){
+        sum += a[i];
+        if(mp[sum]){
+            yes;
+            return;
+        }
+        mp[sum]++;
+    }
+    no;
+
 }
 
 int main()

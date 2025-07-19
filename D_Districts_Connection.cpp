@@ -33,17 +33,36 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-const int MOD=1e9+7;
-
 void solve(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
-    eline;
+    int n;
+    cin>>n;
+    vi a(n);
+    civ(a);
+
+    map <int,int> freq;
+    forn(0,n){
+        freq[a[i]]++;
+    }
+    if(freq.size() == 1){
+        no;
+        return;
+    }
+
+yes;
+    vector <int> vis(n,false);
+    for(int i=0;i<n;i++){
+        if(vis[i])  con;
+        for(int j=0;j<n;j++){
+            if(i!=j && a[i] != a[j]){
+                vis[i] = true;
+                vis[j] = true;
+                cout<<i+1<<" "<<j+1;
+                eline;
+                break;
+            }
+        }
+    }
+    return;
 }
 
 int main()

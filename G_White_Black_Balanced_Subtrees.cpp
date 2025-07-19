@@ -33,15 +33,40 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+string s;
 
-const int MOD=1e9+7;
+int dfs(int node,vector <vector<int>> &adj,int &ans,int n){
+    if(node > n){
+        return 0;   
+    }
+    int ct = 0;
+    if(s[node-1] == 'W'){
+        ct++;
+    }else{
+        ct--;
+    }
+
+    for(auto it : adj[node]){
+        ct += dfs(it,adj,ans,n);
+    }
+
+    if(ct == 0) ans++;
+
+    return ct;
+}
 
 void solve(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
+    int n;
+    cin>>n;
+    vector <vector<int>> adj(n+1);
+    for(int i=2;i<=n;i++){
+        int k;
+        cin>>k;
+        adj[k].pb(i);
+    }
+    cin>>s;
+    int ans = 0;
+    int ct = dfs(1,adj,ans,n);
     cout<<ans;
     eline;
 }

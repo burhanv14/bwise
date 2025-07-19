@@ -33,17 +33,31 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+usll preCal;
 
-const int MOD=1e9+7;
-
+void firstSolve(){
+        forn(2,1000){
+        ll k = i;
+        ll prod = 1 + k;
+        ll mul = k*k;
+        while(prod <= 1e6){
+            prod += mul; 
+            mul = mul * k;
+            preCal.insert(prod);
+        } 
+    }
+}
 void solve(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
-    eline;
+    ll n;
+    cin>>n;
+
+    if(n <= 6){
+        no;
+        return;
+    }
+
+    if(preCal.find(n) == preCal.end())  no;
+    else                        yes;
 }
 
 int main()
@@ -51,6 +65,7 @@ int main()
   //fast;
   int t = 1;
   cin>>t;
+  firstSolve();
   while(t--){
     solve();
   }

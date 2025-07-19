@@ -33,17 +33,34 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-const int MOD=1e9+7;
+void add_divs(int x, map<int, int>&divs){
+    int i = 2;
+    while(i * i <= x){
+        while (x % i == 0){
+            divs[i]++;
+            x /= i;
+        }
+        i++;
+    }
+    if(x > 1) divs[x]++;
+}
 
 void solve(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
-    eline;
+    int n;
+    cin >> n;
+    vector<int>a(n);
+    map<int, int> divs;
+    for(int i = 0; i < n; i++) {
+        cin >> a[i];
+        add_divs(a[i], divs);
+    }
+    for(auto e: divs){
+        if(e.second % n != 0){
+            no;
+            return;
+        }
+    }
+    yes;
 }
 
 int main()

@@ -33,17 +33,57 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-const int MOD=1e9+7;
-
 void solve(){
-    ll n,k;
+    int n,k;
     cin>>n>>k;
-    ll ans=1;
-    for(int i=0;i<k;i++) 
-        ans=(ans*n)%MOD;
-    cout<<ans;
-    eline;
+    vi a(n);
+    civ(a);
+
+    if(1 > a[k-1]){
+        no;
+        return;
+    }
+    
+    int maxm = 0;
+    forn(0,n){
+        maxm = max(maxm, a[i]);
+    }
+
+    if(a[k-1] == maxm){
+        yes;
+        return;
+    }
+    
+    int cur_h = a[k-1];
+    sort(all(a));
+    int lp = 0;
+    while(lp < n && a[lp]!=cur_h){
+        lp++;
+    }
+    while(lp < n && a[lp] == cur_h){
+        lp++;
+    }
+
+    int water = 1;
+
+    while(cur_h != maxm){
+        int poss_h = cur_h + (cur_h - water) + 1;
+        int high=poss_h;
+        int gotHeight = -1;
+        while(lp<n && a[lp] <= poss_h){
+            gotHeight = a[lp];
+            lp++;
+        }
+        if(gotHeight == -1){
+            no;
+            return;
+        }
+        water += (gotHeight-cur_h);
+        cur_h = gotHeight;
+    }
+
+    yes;
+    return;
 }
 
 int main()
