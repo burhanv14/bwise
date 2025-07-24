@@ -32,34 +32,50 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pii               pair<int,int>
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
+#define int               long long
 
-void solve(){
-  int n,x,m;
-  cin>>n>>x>>m;
-
-  vector<pii> que(m);
-  forn(0,m){
-    cin>>que[i].first>>que[i].second;
+bool check(int mid,int h,vi a){
+  sort(a.begin(),a.begin()+mid+1,greater<int>());
+  
+  int sum = 0;
+  
+  for(int i=0;i<=mid;i+=2){
+    sum += a[i];
   }
 
-  int lp = x,rp = x;
-
-  forn(0,m){
-    if(!(rp < que[i].first || lp>que[i].second)){
-        lp = min(lp, que[i].first);
-        rp = max(rp, que[i].second);
-    }
-  }
-
-  cout<<rp-lp+1;
-  eline;
+  return sum <= h;
 }
 
-int main()
+void solve(){
+    int n,h;
+    cin>>n>>h;
+    vi a(n);
+    civ(a);
+
+    int low = 0;
+    int high = n-1;
+
+    int ans = 0;
+    while(low <= high){
+      int mid = (low+high)/2;
+
+      if(check(mid,h,a)){
+        ans = mid;
+        low = mid + 1;
+      }else{
+        high = mid - 1;
+      }
+    }
+
+    cout<<ans+1;
+    eline;
+}
+
+signed main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+  // cin>>t;
   while(t--){
     solve();
   }

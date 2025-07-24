@@ -33,33 +33,66 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+
+ll fn(int ind,int maxmVal,vi &val,vi &wt,vector<vl>&dp){
+  if(ind > val.size()){
+    return 0;
+  }
+
+  if(ind == val.size()){
+    if(maxmVal == 0)
+      return 0;
+    return INT_MAX;
+  }
+  if(dp[ind][maxmVal] != -1){
+    return dp[ind][maxmVal];
+  }
+
+  ll take = INT_MAX,notTake = INT_MAX;
+  if(val[ind] <= maxmVal ){
+      take = wt[ind] + fn(ind+1,maxmVal-val[ind],val,wt,dp);
+  }
+  notTake = fn(ind+1,maxmVal,val,wt,dp);
+
+  return dp[ind][maxmVal] = min(take,notTake);
+}
 void solve(){
-  int n,x,m;
-  cin>>n>>x>>m;
+    int n,w;
+    cin>>n>>w;
 
-  vector<pii> que(m);
-  forn(0,m){
-    cin>>que[i].first>>que[i].second;
-  }
-
-  int lp = x,rp = x;
-
-  forn(0,m){
-    if(!(rp < que[i].first || lp>que[i].second)){
-        lp = min(lp, que[i].first);
-        rp = max(rp, que[i].second);
+    vector <int> wt(n),val(n);
+    forn(0,n){
+      cin>>wt[i]>>val[i];
     }
-  }
 
-  cout<<rp-lp+1;
-  eline;
+    ll         maxmVal = accumulate(all(val),0);
+    vector <vector<ll>> dp(n+1,vector<ll>(maxmVal+1,-1));
+
+    /*
+      for each val -> min wt. kitna ho sakta h
+      ind,val
+
+      if(cur.val < val)
+
+    */
+    int ans = 0;
+    for(int i=maxmVal;i>=0;i--){
+      ll minWt = fn(0,i,val,wt,dp);
+      if(minWt <= w){
+        ans = i;
+        break;
+      }
+    }
+    
+    cout<<ans;
+    eline;
 }
 
 int main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+  // cin>>t;
   while(t--){
     solve();
   }

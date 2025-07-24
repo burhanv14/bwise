@@ -34,32 +34,51 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 void solve(){
-  int n,x,m;
-  cin>>n>>x>>m;
+    ll n;
+    cin>>n;
 
-  vector<pii> que(m);
-  forn(0,m){
-    cin>>que[i].first>>que[i].second;
-  }
-
-  int lp = x,rp = x;
-
-  forn(0,m){
-    if(!(rp < que[i].first || lp>que[i].second)){
-        lp = min(lp, que[i].first);
-        rp = max(rp, que[i].second);
+    vl ans;
+    vector <pll> a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i].first;
+        a[i].second = i+1;
+    }   
+    if(n == 2){
+        cout<<0;
+        eline;
+        eline;
+        return;
     }
-  }
+    sort(all(a));
 
-  cout<<rp-lp+1;
-  eline;
+    ll lSum = 0;
+    forn(0,n-2){
+        lSum += a[i].first;
+    }
+
+    if(a[n-2].first == lSum){
+        ans.pb(a[n-1].second);
+    }
+
+    lSum += a[n-2].first;
+
+    for(ll i=n-2;i>=0;i--){
+        if(lSum-a[i].first == a[n-1].first){
+            ans.pb(a[i].second);
+        }
+    }
+
+    cout<<ans.size();
+    eline;
+    coutvec(ans);
+    eline;
 }
 
 int main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+//   cin>>t;
   while(t--){
     solve();
   }

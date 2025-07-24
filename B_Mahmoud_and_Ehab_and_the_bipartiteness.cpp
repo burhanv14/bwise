@@ -32,34 +32,77 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pii               pair<int,int>
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
+#define int               long long
 
-void solve(){
-  int n,x,m;
-  cin>>n>>x>>m;
+bool colorGraph(int node,int col,vi &color,vector<vi>&adj){
+    color[node] = 1-col;
 
-  vector<pii> que(m);
-  forn(0,m){
-    cin>>que[i].first>>que[i].second;
-  }
-
-  int lp = x,rp = x;
-
-  forn(0,m){
-    if(!(rp < que[i].first || lp>que[i].second)){
-        lp = min(lp, que[i].first);
-        rp = max(rp, que[i].second);
+    for(auto it : adj[node]){
+        if(color[it] != -1){
+            if(color[it] == color[node])    
+                return false;
+        }else if(!colorGraph(it,1-col,color,adj)){
+            return false;
+        }
     }
-  }
 
-  cout<<rp-lp+1;
-  eline;
+    return true;
 }
 
-int main()
+void solve(){
+    int n;
+    cin>>n;
+    vector <pair<int,int>> edges;
+    forn(0,n-1){
+        int u,v;
+        cin>>u>>v;
+        edges.push_back({u,v});
+    }
+
+    vector <vector<int>> adj(n+1);
+
+    for(auto it : edges){
+        adj[it.first].push_back(it.second);
+        adj[it.second].push_back(it.first);
+    }
+
+    vector <int> color(n+1,-1);
+    bool f = colorGraph(1,1,color,adj);
+
+    if(f == false){
+        cout<<0<<endl;
+        return;
+    }
+
+    vector <int> a,b;
+    forn(1,n+1){
+        if(color[i] == 1)   a.pb(i);
+        else                b.pb(i);
+    }
+
+    int ans = 0;
+
+    if(b.size() < a.size()){
+        for(auto it : b){
+            if(a.size() - adj[it].size() > 0)
+            ans += a.size() - adj[it].size();        
+        }
+    }else{
+        for(auto it : a){
+            if(b.size() - adj[it].size() > 0)
+            ans += b.size() - adj[it].size();        
+        }
+    }
+
+    cout<<ans;
+    eline;
+}
+
+signed main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+//   cin>>t;
   while(t--){
     solve();
   }

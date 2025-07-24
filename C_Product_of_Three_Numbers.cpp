@@ -5,7 +5,7 @@
 using namespace std;
 using namespace __gnu_pbds;
 //st.find_by_order(x) || st.order_of_key(x)
-typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,tree_order_statistics_node_update> pbds;
+typedef tree<long long, null_type, less<long long>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 #define fast              ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #define ll                long long
 #define civ(v)            for(auto i=0;i<v.size();i++) cin>>v[i]
@@ -33,35 +33,51 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+
 void solve(){
-  int n,x,m;
-  cin>>n>>x>>m;
+    int n;
+    cin >> n;
 
-  vector<pii> que(m);
-  forn(0,m){
-    cin>>que[i].first>>que[i].second;
-  }
 
-  int lp = x,rp = x;
+    map<int, int> mp;
+    int original_n = n;
 
-  forn(0,m){
-    if(!(rp < que[i].first || lp>que[i].second)){
-        lp = min(lp, que[i].first);
-        rp = max(rp, que[i].second);
+    for(int i = 2; i * i <= n; i++){
+            if(n % i == 0 && mp.find(i)==mp.end()){
+                mp[i]++;
+                n /= i;
+                break;
+        }
     }
-  }
+    
+    for(int i = 2; i * i <= n; i++){
+            if(n % i == 0 && mp.find(i)==mp.end()){
+                mp[i]++;
+                n /= i;
+                break;
+        }
+    }
 
-  cout<<rp-lp+1;
-  eline;
+
+    if(mp.size() < 2 || n==1 || mp[n]>0){
+        no;
+        return;
+    } else {
+        mp[n]++;
+        yes;
+        for(auto it : mp){
+            cout<<it.first<<" ";
+        }
+        eline;
+    }
 }
 
-int main()
-{
-  //fast;
-  int t = 1;
-  cin>>t;
-  while(t--){
-    solve();
-  }
-   return 0;
+int main(){
+    //fast;
+    int t = 1;
+    cin >> t;
+    while(t--){
+        solve();
+    }
+    return 0;
 }

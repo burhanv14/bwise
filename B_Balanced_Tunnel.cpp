@@ -34,32 +34,40 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 void solve(){
-  int n,x,m;
-  cin>>n>>x>>m;
+    int n;
+    cin>>n;
+    vi a(n);
+    civ(a);
+    vi b(n);
+    civ(b);
 
-  vector<pii> que(m);
-  forn(0,m){
-    cin>>que[i].first>>que[i].second;
-  }
+    int lp = 0;
+    
+    int ans = 0;
+    usi st;
+    
 
-  int lp = x,rp = x;
-
-  forn(0,m){
-    if(!(rp < que[i].first || lp>que[i].second)){
-        lp = min(lp, que[i].first);
-        rp = max(rp, que[i].second);
+    for(int rp=0;rp<n;rp++){
+        while(lp<n && st.find(a[lp]) != st.end()){
+            lp++;
+        }
+        if(b[rp] == a[lp]){
+            lp++;
+        }else{
+            ans++;
+            st.insert(b[rp]);
+        }
     }
-  }
 
-  cout<<rp-lp+1;
-  eline;
+    cout<<ans;
+    eline;
 }
 
 int main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+//   cin>>t;
   while(t--){
     solve();
   }
