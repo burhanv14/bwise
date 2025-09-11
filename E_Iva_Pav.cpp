@@ -34,40 +34,58 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
+bool check(int left,int right,vector <vi>&bits,int k){
+  int num = 0;
+  for(int i=0;i<=31;i++){
+    int diff = bits[right][i] - bits[left-1][i];
+    int cur_len = right - left +1 ;
+    if(diff == cur_len){
+      num |= (1<<i);
+    }
   }
-
-  return zeros;
+  return num>=k;
 }
-
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
+    int n;
+    cin>>n;
     vi a(n);
-    civ(a); 
+    civ(a);
+    int q;
+    cin>>q;
+    vector <pii> que(q);
+    forn(0,q){
+      cin>>que[i].first>>que[i].second;
+    }
+
+    vector <vector<int>> bits(n+1,vector<int>(32,0));
     
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
-
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
+    for(int i=1;i<=n;i++){
+      int ind = i-1;
+      for(int j=0;j<=31;j++){
+        bits[i][j] = bits[i-1][j] + ((a[ind] >> j) & 1);
       }
     }
+
+    for(auto &it : que){
+      int l = it.first;
+      int r = -1;
+      int k = it.second;
+
+      int low = l,high = n;
+      while(low <= high){
+        int mid = (low + high)/2;
+
+        if(check(l,mid,bits,k)){
+            r = mid;
+            low = mid + 1;
+        }else{
+          high = mid - 1;
+        }
+      }
+
+      cout<<r<<" ";
+    }
     
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
     eline;
 }
 

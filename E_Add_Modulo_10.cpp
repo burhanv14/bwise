@@ -20,8 +20,8 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define umll              unordered_map <long long,long long>
 #define mll               map<long long,long long>
 #define forn(s,n)         for(auto i=s;i<n;i++)
-#define yes               cout<<"YES"<<endl
-#define no                cout<<"NO"<<endl
+#define yes               cout<<"Yes"<<endl
+#define no                cout<<"No"<<endl
 #define con               continue
 #define eline             cout<<"\n"
 #define coutvec(arr)      for(auto i=0;i<arr.size();i++) cout<<arr[i]<<" "
@@ -33,42 +33,46 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
+    int n;
+    cin>>n;
     vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    civ(a);
 
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+    bool flag = false;
+    for (int i = 0; i < n; ++i) {
+        if (a[i] % 5 == 0) {
+            flag = true;
+            a[i] = (a[i]+a[i]%10);
+        }
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
+    if(flag){
+      if(*min_element(a.begin(), a.end()) == *max_element(a.begin(), a.end())){
+        yes;
+      }else{
+        no;
+      }
+      return;
+    }
+
+      bool flag1=false,flag2=false;
+      for(int i=0;i<n;i++){
+        while(a[i] % 10 != 2){
+          a[i] = a[i] +  a[i]%10;
+        }
+        if (a[i] % 20 == 2) {
+                flag1 = true;
+            } else {
+                flag2 = true;
+            }
+      }
+      if(flag1 && flag2){
+        no;
+        return;
+      }
+
+    yes;
+    return;
 }
 
 int main()

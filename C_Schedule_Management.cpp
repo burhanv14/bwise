@@ -33,41 +33,57 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+bool check(int t, vi &a,int n,umii &mp){
+    if(t <= 0)  return false;
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
+    int worstCase = (t/2)*n;
+    if(worstCase >= a.size()){
+      return true;
+    }
 
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
+    int spareTasks = 0,reqTask = 0;
 
-  return zeros;
+    for(int i=1;i<=n;i++){
+      int tasks = mp[i];
+      int canComp = min(t, tasks);
+      int currSpareTasks = (t - canComp)/2;
+      int curReqTask = max(0,tasks - canComp);
+
+      spareTasks += currSpareTasks;
+      reqTask += curReqTask;
+    }
+
+    return reqTask <= spareTasks;
 }
 
 void solve(){
-    
     int n,m;
     cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    vi a(m);
+    civ(a);
 
-    int ans = 0;
 
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
+    umii mp;
+    for(int i=1;i<=n;i++) mp[i] = 0;
+    for(auto it : a){
+      mp[it]++;
+    }
+    int low = 1;
+    int high = 2*m;
+
+    int ans = high;
+    while(low <= high){
+      int mid = (low+high)/2;
+
+      if(check(mid,a,n,mp)){
+        ans = min(ans, mid);
+        high = mid - 1;
+      }else{
+        low = mid + 1;
       }
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
+
+    cout<<ans;
     eline;
 }
 

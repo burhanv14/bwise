@@ -33,42 +33,41 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
-void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
-
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+void solve() {
+    long long n,x,y;
+    cin >> n >> x >> y;
+    vl a(n);
+    for(int i = 0; i < n; i++) {
+        cin >> a[i];
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
+    int numOdds = 0;
+    for(int i = 0; i < n; i++) { //O(n)
+        if(a[i] % 2 == 1) {
+            numOdds++;
+        }
+    }
+ 
+    int aliceStart, bobStart;
+    aliceStart = x % 2;
+    bobStart = 1 - aliceStart;
+ 
+    int aliceEnd, bobEnd;
+ 
+    if(numOdds % 2 == 0) {
+        aliceEnd = aliceStart;
+        bobEnd = bobStart;
+    }
+    else{
+        aliceEnd = 1 - aliceStart;
+        bobEnd = 1 - bobStart;
+    }
+ 
+    if(y % 2 == aliceEnd) {
+        cout << "Alice\n";
+    }
+    else{
+        cout << "Bob\n";
+    }
 }
 
 int main()

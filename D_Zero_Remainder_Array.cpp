@@ -32,52 +32,58 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pii               pair<int,int>
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
-
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
+#define int               long long
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
+    int n,k;
+    cin>>n>>k;
+
     vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    civ(a);
 
-    int ans = 0;
+    priority_queue <pii,vector<pii>,greater<pii>> pq;
+    unordered_map <int,int> mp;
+    bool f = true;
+    for(int i=0;i<n;i++){
+        if(a[i]%k != 0){
+            f = false;
+            
+        mp[k-(a[i]%k)]++;
+        }
+    }
 
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+    if(f){
+        cout<<0<<endl;
+        return;
+    }
+
+
+    for(auto it : mp){
+        pq.push({it.first,it.second});
     }
     
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
+    int x = 0;
+    
+    while(!pq.empty()){
+        auto curr = pq.top();
+        pq.pop();
+
+        x = curr.first+1;
+        if(curr.second > 1){
+            int newX = x+k-1;
+            pq.push({newX,curr.second-1});
+        }
+    }
+
+    cout<<x<<endl;
 }
 
-int main()
+signed main()
 {
   //fast;
   int t = 1;
   cin>>t;
   while(t--){
-    solve();
+    solve(); 
   }
    return 0;
 }

@@ -33,42 +33,60 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    // 7 4 15 12
+    // 3 8 5 11 8 3
 
-    int ans = 0;
+    // 3 9 7 15 1
 
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+    ll n,k;
+    cin>>n>>k;
+
+    vl a(n);
+    civ(a);
+    
+    if(k >= 3){
+        cout<<0;
+        eline;
+        return;
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
+
+    if(k == 1){
+        ll minm = a[n-1];
+        forn(0,n-1){
+            minm = min(minm, a[i]);
+            for(ll j=i+1;j<n;j++){
+                minm = min(minm, (ll)abs(a[i]- a[j]));
+            }
+        }
+
+        cout<<minm;
+        eline;
+        return;
+    }
+
+    if(k == 2){
+        usi st(all(a));
+        ll minm = a[n-1];
+        forn(0,n-1){
+            minm = min(minm, a[i]);
+            for(ll j=i+1;j<n;j++){
+                a.pb((ll)abs(a[i]- a[j]));
+                minm = min(minm, (ll)abs(a[i]- a[j]));
+            }
+        }
+        
+        sort(all(a));
+        forn(0,a.size()-1){
+            if(st.find(a[i]) != st.end() || st.find(a[i+1]) != st.end()){
+                minm = min(minm, a[i+1]-a[i]);
+            }
+        }
+
+        cout<<minm;
+        eline;
+        return;
+    }
 }
 
 int main()

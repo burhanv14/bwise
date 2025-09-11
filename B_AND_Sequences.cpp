@@ -33,42 +33,33 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
 void solve(){
+    int MOD=1e9+7;
+    int n;
+    cin>>n;
+    vector<int> a(n);
+    for(int i=0;i<n;i++)cin>>a[i];
     
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
+    int min1=*min_element(a.begin(),a.end());
+    int cnt=0;
     
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
-
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+    for(int x:a)
+    {
+        if(min1==x)cnt++;
+        if((min1&x)!=min1)
+        {
+           cout<<0<<endl;
+            return;
+        }
     }
     
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
+    int fact=1;
+    for(int i=1;i<=n-2;i++)fact=(1LL*fact*i)%MOD;
+    int ans=(1LL * cnt * (cnt-1))%MOD;
+    ans = (1LL * ans * fact) % MOD;
+    cout<<ans;
     eline;
+
 }
 
 int main()

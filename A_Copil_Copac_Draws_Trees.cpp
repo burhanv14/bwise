@@ -5,7 +5,7 @@
 using namespace std;
 using namespace __gnu_pbds;
 //st.find_by_order(x) || st.order_of_key(x)
-typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,tree_order_statistics_node_update> pbds;
+typedef tree<long long, null_type, less<long long>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 #define fast              ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #define ll                long long
 #define civ(v)            for(auto i=0;i<v.size();i++) cin>>v[i]
@@ -34,50 +34,43 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
+const int NMAX = 2e5+5;
+int dp[NMAX], id[NMAX];
+vector<pair<int,int>> edg[NMAX];
+void dfs(int u){
+    for(auto it : edg[u]){
+        if(dp[it.first] == 0){
+            dp[it.first] = dp[u] + (it.second <= id[u]);
+            id[it.first] = it.second;
+            dfs(it.first);
+        }
+    }
 }
+
 
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
-
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+    int n;
+    cin>>n;
+    for(int i=1; i<=n; i++) dp[i] = id[i] = 0, edg[i].clear();
+    for(int i=1; i<n; i++){
+        int u,v;
+        cin>>u>>v;
+        edg[u].push_back({v,i});
+        edg[v].push_back({u,i});
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
+    dp[1] = 1;
+    dfs(1);
+    int ans = 0;
+    for(int i=1; i<=n; i++) ans=max(ans,dp[i]);
+    cout<<ans<<'\n';
 }
 
-int main()
-{
+int main(){
   //fast;
   int t = 1;
-  cin>>t;
+  cin >> t;
   while(t--){
     solve();
   }
-   return 0;
+  return 0;
 }

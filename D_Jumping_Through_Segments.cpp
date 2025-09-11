@@ -34,41 +34,47 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
+bool check(int k,vector<pair<int,int>> &a){
+  int low = 0,high = 0; 
+  int n = a.size();
+  for(int i=0;i<n;i++){
+      int cur_low = a[i].first;
+      int cur_high = a[i].second;
 
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
+      low  =max(low - k,cur_low);
+      high = min(high + k,cur_high);
+
+      if(low > high)  return false;
   }
 
-  return zeros;
+  return true;
 }
 
+
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+  int n;
+  cin>>n;
+  vector <pii> a(n);
+  
+  forn(0,n){
+    cin>>a[i].first>>a[i].second;  
+  }
 
-    int ans = 0;
+  int low = 0,high = 1e9+1,ans=high;
 
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+  while(low <= high){
+    int mid = (low+high)/2;
+
+    if(check(mid,a)){
+      ans = mid;
+      high = mid - 1;
+    }else{
+      low = mid + 1;
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
+  }
+
+  cout<<ans;
+  eline;
 }
 
 int main()

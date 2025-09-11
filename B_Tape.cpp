@@ -32,50 +32,40 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pii               pair<int,int>
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
-
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
+#define int               long long
 
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    int n,m,k;
+    cin>>n>>m>>k;
 
-    int ans = 0;
+    vl a(n);
+    civ(a);
 
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+
+    vi b;
+    forn(1,n){
+        b.pb(a[i]-a[i-1]);
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
+
+    ll ans = 0;
+    sort(all(b));
+
+    forn(0,n-k){
+        ans += b[i];
+    }
+
+    ans += k;
+
+    cout<<ans;
     eline;
+
 }
 
-int main()
+signed main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+//   cin>>t;
   while(t--){
     solve();
   }

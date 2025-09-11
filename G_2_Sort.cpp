@@ -33,41 +33,45 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
 void solve(){
+    //1 2 4 8 16 32
+    //6 6 5 7
     
-    int n,m;
-    cin>>n>>m;
+    int n;
+    int k;
+    cin>>n>>k;
+
     vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    civ(a);
 
+    int pref = 0;
     int ans = 0;
+    int lp = 0;
 
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
+    for(int rp=0;rp<n-1;rp++){
+      
+      if(a[rp] < 2*a[rp+1]){
+        pref++;
       }
+
+      
+      // cout<<pref<<" "<<ans<<" "<<lp<<endl;
+
+      if(rp-lp+1 == k){
+        if(pref == k){
+          ans++;
+          lp++;
+          pref--;
+        }else{
+          pref -= a[lp] < 2*a[lp+1]?1:0;
+          lp++;
+        }
+      }
+
+      // cout<<pref<<" "<<ans<<" "<<lp<<endl;
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
+
+    cout<<ans;
     eline;
 }
 

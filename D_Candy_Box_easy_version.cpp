@@ -33,41 +33,42 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
+    int n;
+    cin>>n;
+
     vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    civ(a);
 
-    int ans = 0;
-
+    vi ct(n+1,0);
     forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+      ct[a[i]]++;
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
+
+    sort(all(ct),greater<int>());
+    // coutvec(ct);
+    // eline;
+ 
+    ll ans = 0;
+    ll stp = -1;
+    forn(0,n){
+        if(stp == -1){
+          ans += ct[i];
+          stp = ct[i] - 1;
+        }else{
+          if(ct[i] >= stp){
+            ans += stp;
+            stp = stp - 1;
+          }else{
+            ans += ct[i];
+            stp = ct[i] - 1;
+          }
+        }
+
+        if(stp <= 0)  break;
+    }
+
+    cout<<ans;
     eline;
 }
 

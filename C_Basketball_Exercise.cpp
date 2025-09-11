@@ -32,50 +32,43 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pii               pair<int,int>
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
+#define int               long long
+void solve(){
+    int n;
+    cin >> n;
+    vl a(n), b(n);
+    civ(a);
+    civ(b);
 
+    vl dp1(n,0);
+    vl dp2(n,0);
+    int ans = max(a[0],b[0]);
+    dp1[0] = a[0];
+    dp2[0] = b[0];
+  for(int i=1;i<n;i++){
+    dp1[i] = dp2[i-1] + a[i];
+    if(i-2 >= 0){
+      dp1[i] = max(dp1[i], dp2[i-2] + a[i]);
+    }
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
+    dp2[i] = dp1[i-1] + b[i];
+    if(i-2 >= 0){
+      dp2[i] = max(dp2[i], dp1[i-2] + b[i]);
+    }
 
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
+    ans = max(ans, dp1[i]);
+    ans = max(ans, dp2[i]);
   }
 
-  return zeros;
+  cout<<ans;
+  eline;
 }
 
-void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
-
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
-    }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
-}
-
-int main()
+signed main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+  // cin>>t;
   while(t--){
     solve();
   }

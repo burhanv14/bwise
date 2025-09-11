@@ -33,42 +33,36 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+void solve(){
+  int a,b,k;
+  cin>>a>>b>>k;
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
+  vi boys(k);
+  civ(boys);
 
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
+  vi girls(k);
+  civ(girls);
+
+  unordered_map <int,vector<int>> adjBoys;
+  unordered_map <int,vector<int>> adjGirls;
+  for(int i=0;i<k;i++){
+    adjBoys[boys[i]].push_back(girls[i]);
+    adjGirls[girls[i]].push_back(boys[i]);
   }
 
-  return zeros;
-}
+  long long ans = 0;
 
-void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+  for(int i=0;i<k;i++){
+    int boy = boys[i];
+    int girl = girls[i];
 
-    int ans = 0;
+    int curr = (k-adjBoys[boy].size()-adjGirls[girl].size()+1);
 
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
-    }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
+    ans += curr;
+  }
+
+  cout<<ans/2;
+  eline;
 }
 
 int main()

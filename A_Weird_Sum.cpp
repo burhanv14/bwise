@@ -32,50 +32,56 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pii               pair<int,int>
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
-
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
+#define int               long long
+void solve(){
+  int n,m;
+  cin>>n>>m;
+  vector <vl> a(n,vl(m));
+  forn(0,n){
+    for(int j=0;j<m;j++){
+      cin>>a[i][j];
+    }
   }
 
-  return zeros;
-}
-
-void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
-
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+  unordered_map <int,pair<vector<int>,vector<int>>> mp;
+  for(int i=0;i<n;i++){
+    for(int j=0;j<m;j++){
+      mp[a[i][j]].first.push_back(i+1);
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
+  }
+    for(int i=0;i<m;i++){
+      for(int j=0;j<n;j++){
+      mp[a[j][i]].second.push_back(i+1);
+    }
+  }
+      
+  int ans = 0;
+  for(auto it : mp){
+    int pref = 0;
+    int ct = 0;
+    for(auto v : it.second.first){
+      ans += max(0LL,(ct*v - pref));
+      ct++;
+      pref += v;
+    }
+    pref = 0;
+    ct = 0;
+    for(auto v : it.second.second){
+      ans += max(0LL,(ct*v - pref));
+      ct++;
+      pref += v;
+    }
+
+  }
+  cout<<ans;
+  eline;
 }
 
-int main()
+signed main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+  // cin>>t;
   while(t--){
     solve();
   }

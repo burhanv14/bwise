@@ -34,40 +34,64 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
+class DisjointSet{
+    public:
+    vector <int> sizes,parent;
+         DisjointSet(int n){
+            sizes.resize(n+1,1);
+            parent.resize(n+1);;
+            for(int i=0;i<=n;i++){
+                parent[i] = i;
+            }
+        }
 
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
+        int findUlp(int node){
+            if(node == parent[node])    return node;
+            return parent[node] = findUlp(parent[node]);
+        }
 
-  return zeros;
-}
+        void unionSize(int u,int v){
+            int pu = findUlp(u);
+            int pv = findUlp(v);
+            if(pu == pv)    return;
+            int su = sizes[pu];
+            int sv = sizes[pv];
+
+            if(su < sv){
+                parent[pu] = pv;
+                sizes[pv] += sizes[pu]; 
+            }else{
+                parent[pv] = pu;
+                sizes[pu] += sizes[pv];
+            }
+        }
+};
 
 void solve(){
-    
     int n,m;
     cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    vector <vi> a;
+    DisjointSet st(n);
+    forn(0,m){
+        int k;
+        cin>>k;
+        if(k <= 0)  continue;
+        vi temp(k);
+        civ(temp);
+        a.pb(temp);
+    } 
 
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+    for(auto it : a){
+        int s = it.size();
+        for(int i=1;i<s;i++){
+            st.unionSize(it[i],it[i-1]);
+        }
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
+
+    for(int i=1;i<=n;i++){
+        cout<<st.sizes[st.findUlp(i)]<<" ";
+    }
+
     eline;
 }
 
@@ -75,7 +99,7 @@ int main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+//   cin>>t;
   while(t--){
     solve();
   }

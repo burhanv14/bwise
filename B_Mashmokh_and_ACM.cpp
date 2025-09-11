@@ -33,49 +33,44 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+    int MOD = 1000000007;
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
-void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
-
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
+    int fn(int ind,int k,int num,int n,vector <vector<int>> &dp){
+      if(ind  == k){
+        return 1;
       }
-    }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
-    eline;
-}
+
+      if(dp[ind][num] != -1){
+        return dp[ind][num];
+      }
+
+      ll ans = 0;
+      int j = 1;
+      while(j * num <= n){
+        ans = (ans+fn(ind+1,k,j*num,n,dp))%MOD;
+        j++;
+      }
+
+      return dp[ind][num] = ans;
+    }  
+
+    void solve(){
+        int n,k;
+        cin>>n>>k;
+        ll ans = 0;
+        vector <vector<int>> dp(k+1,vector<int>(n+1,-1));
+        for(int i=1;i<=n;i++){
+            ans = (ans+fn(1,k,i,n,dp))%MOD;
+        }
+        cout<<ans;
+        eline;
+      }
 
 int main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+  // cin>>t;
   while(t--){
     solve();
   }

@@ -33,41 +33,57 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
 void solve(){
+    // split kaise karna h?
+    // arr.back() >= incoming ele
+    // if(incoming ele is greater)     usko sabse chote wale .back() mei daalenge
+    // if(arr.empty)       usme daal do
+    // if(both arr.back > icoming)     icoming ko chote arr.bvack mei daal do
     
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    // 1 2 3 4 5
+    // a -->1 3 5 
+    // b -->2 4
+
+    // 8 2 3 1 1 7 4 3
+    // a-->8 3 3
+    // b-->2 1 1 7 4 
+    int n;
+    cin >> n;
+    vi arr(n);
+    civ(arr);
+
+    vi a, b;
+
+    for (int i = 0; i < n; ++i) {
+        int curr = arr[i];
+        int l1,l2;
+        if(a.empty())   l1 = INT_MAX;
+        else            l1 = a.back();
+        if(b.empty())   l2 = INT_MAX;
+        else            l2 = b.back();
+            if (l1 >= curr && l2 >= curr) {
+                if (l1 < l2) a.pb(curr);
+                else         b.pb(curr);
+            } else if (l1 >= curr) {
+                a.pb(curr);
+            } else if (l2 >= curr) {
+                b.pb(curr);
+            } else {
+                if (l1 < l2) a.pb(curr);
+                else         b.pb(curr);
+            }
+    }
 
     int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+    for (int i = 0; i + 1 < a.size(); ++i) {
+        if (a[i] < a[i + 1]) ++ans;
     }
-    
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
+
+    for (int i = 0; i + 1 < b.size(); ++i) {
+        if (b[i] < b[i + 1]) ++ans;
+    }
+
+    cout<<ans;
     eline;
 }
 

@@ -33,41 +33,70 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
-  }
-
-  return zeros;
-}
-
 void solve(){
-    
-    int n,m;
-    cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
 
-    int ans = 0;
+    vector <int> col(n);
+    int ct = 0;
+    for(int i=0;i<n;i++){
+        if(s[i] == '(') ct++;
+        else            ct--;
 
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
+        if(ct == 0 && s[i] == ')'){
+          col[i] = 1;
+        }else if(ct == 0 && s[i] == '('){
+          col[i] = 2;
+        }else if(ct > 0){
+          col[i] = 1;
+        }else{
+          col[i] = 2;
+        }
+    }
+
+    bool f = false;
+    int ct1 = 0;
+    int ct2 = 0;
+    for(int i=0;i<n;i++){
+      if(col[i] == 1){
+        if(s[i] == '(') ct1++;
+        else            ct1--;
+      }else{
+        if(s[i] == '(') ct2++;
+        else            ct2--;
+      }
+
+      if(ct1 < 0){
+        f = true;
+        break;
+      } 
+      if(ct2 > 0){
+        f = true;
+        break;
       }
     }
+
+    if(ct1 != 0)  f = true;
+    if(ct2 != 0)  f = true;
+
+    if(f){
+      cout<<-1<<endl;
+      return;
+    }
+
+    usi st(all(col));
+    int maxm = *max_element(all(col));
+    cout<<st.size()<<endl;
+    if(st.size() == 1){
+      forn(0,n){
+        cout<<1<<" ";
+      }
+    }else{
+      coutvec(col);
+    }
     
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
     eline;
 }
 

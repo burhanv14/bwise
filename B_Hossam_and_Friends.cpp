@@ -33,42 +33,65 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+bool myBsearch(vector <int> arr,int lKey, int rKey){
+  if(arr.size() == 0) return false;
+  int n = arr.size();
+  int low = 0,high = n-1;
+  
+  while(low <= high){
+    int mid = (low+high)/2;
 
-int getLength(int n){
-  if(n%10 != 0) return 0;
-
-  int zeros = 0;
-  while(n > 0 && n%10==0){
-    zeros++;
-    n = n/10;
+    if(arr[mid] >= lKey && arr[mid] <rKey){
+        return true;
+    }else if(arr[mid] < lKey){
+      low = mid + 1;
+    }else{
+      high = mid -1;
+    }
   }
 
-  return zeros;
+  return false;
 }
 
 void solve(){
+    // 1 2 3 4
     
+    // 1 --> 2
+    // 2 --> 3,1
+    // 3 --> 2
+
     int n,m;
     cin>>n>>m;
-    vi a(n);
-    civ(a); 
-    
-    sort(all(a),[](int &c,int &d){
-        return getLength(c) > getLength(d);
-    });
-
-    int ans = 0;
-
-    forn(0,n){
-      if(i&1) ans += to_string(a[i]).length();
-      else{
-        ans += to_string(a[i]).length() - getLength(a[i]);
-      }
+    vector <vi> a(m,vi(2));
+    for(int i=0;i<m;i++){
+      cin>>a[i][0]>>a[i][1];
     }
     
-    if(ans-1 >= m)    cout<<"Sasha";
-    else            cout<<"Anna";
+
+    map <int,vector<int>> mp;
+    for(int i=0;i<m;i++){
+        mp[a[i][0]].pb(a[i][1]);
+        mp[a[i][1]].pb(a[i][0]);
+    }
+
+    for(auto & it : mp){
+      sort(it.second.begin(),it.second.end());
+    }
+
+    ll ans = 0;
+    int lp = 1;
+    for(int rp=1;rp<=n;rp++){
+      for(auto it : mp[rp]){
+        if(it < rp){
+          lp = max(lp, it + 1);
+        }
+      }
+      ans += rp-lp+1;
+    }
+
+    cout<<ans;
     eline;
+
 }
 
 int main()
