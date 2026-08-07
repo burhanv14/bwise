@@ -34,24 +34,7 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 void solve(){
-    ll n;
-    cin>>n;
-    vl a(n);
-    civ(a);
-
-    sort(all(a),greater<ll>());
-    ll sum = accumulate(all(a),0LL);
-    ll rem = sum / 2;
-    ll ans = sum - rem;
-
-    forn(0,n){
-        if(rem <= 0)
-            break;
-        rem -= a[i];
-        ans++;
-    }
-    cout<<ans;
-    eline;
+  
 }
 
 int main()
@@ -63,4 +46,4 @@ int main()
     solve();
   }
    return 0;
-}
+}     

@@ -34,23 +34,52 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 void solve(){
-    ll n;
-    cin>>n;
-    vl a(n);
-    civ(a);
+    /*
+        10 20 15
 
-    sort(all(a),greater<ll>());
-    ll sum = accumulate(all(a),0LL);
-    ll rem = sum / 2;
-    ll ans = sum - rem;
 
-    forn(0,n){
-        if(rem <= 0)
-            break;
-        rem -= a[i];
-        ans++;
-    }
-    cout<<ans;
+        10 20 15
+        9 8 6
+
+        10 20 15
+        9  8  6
+
+            -2  +2
+
+        drunk   sum
+        9       10 --> 1
+        8        21 --> 13
+                28  ---> 
+
+        upper bound
+
+      
+    */
+  ll n;
+  cin>>n;
+  vl a(n+1),b(n+1);
+  forn(1,n+1) cin>>a[i];
+  forn(1,n+1) cin>>b[i];
+
+    vl pr(n+1,0);
+		forn(1,n+1) pr[i] = pr[i - 1] + b[i]; 
+
+		vl cnt(n+2,0), ans(n+1,0);
+		forn(1,n+1) {
+				ll x = a[i] + pr[i - 1];
+				ll j = upper_bound(pr.begin(), pr.end(), x) - pr.begin();
+				if (j <= n) {
+						ans[j] += x - pr[j - 1]; 
+				}
+				cnt[i]++;
+				cnt[j]--;
+		}
+		forn(1,n+1) {
+				cnt[i] += cnt[i - 1]; 			
+        ans[i] += cnt[i] * b[i]; 
+        cout<<ans[i]<<" ";
+		}
+
     eline;
 }
 

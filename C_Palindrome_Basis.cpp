@@ -33,32 +33,54 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-void solve(){
+
+const ll mod = 1e9 + 7;
+const ll MAXN = 4e4 + 5;
+
+vl dp(MAXN + 1, 0);
+vl palis;
+
+bool isPalindrome(int x) {
+    string s = to_string(x);
+    int l = 0, r = s.size() - 1;
+    while (l < r) {
+        if (s[l++] != s[r--]) return false;
+    }
+    return true;
+}
+
+void checkPalis() {
+    for (int i = 1; i <= MAXN; i++) {
+        if (isPalindrome(i)) {
+            palis.push_back(i);
+        }
+    }
+
+    dp[0] = 1;
+
+    for(ll p : palis){
+        forn(1,MAXN+1){
+            if(i - p >= 0){
+                dp[i] += (dp[i - p])%mod;
+            }
+        }
+    }
+}
+
+void solve() {
     ll n;
     cin>>n;
-    vl a(n);
-    civ(a);
-
-    sort(all(a),greater<ll>());
-    ll sum = accumulate(all(a),0LL);
-    ll rem = sum / 2;
-    ll ans = sum - rem;
-
-    forn(0,n){
-        if(rem <= 0)
-            break;
-        rem -= a[i];
-        ans++;
-    }
-    cout<<ans;
+    cout<<dp[n]%mod;
     eline;
 }
+
 
 int main()
 {
   //fast;
   int t = 1;
   cin>>t;
+  checkPalis();
   while(t--){
     solve();
   }

@@ -36,29 +36,72 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 void solve(){
     ll n;
     cin>>n;
-    vl a(n);
-    civ(a);
-
-    sort(all(a),greater<ll>());
-    ll sum = accumulate(all(a),0LL);
-    ll rem = sum / 2;
-    ll ans = sum - rem;
-
-    forn(0,n){
-        if(rem <= 0)
-            break;
-        rem -= a[i];
-        ans++;
+    string s;
+    cin>>s;
+    ll m =0,p = 0;
+    for(auto ch : s){
+        if(ch == '+')   p++;
+        else            m++;
     }
-    cout<<ans;
-    eline;
+    ll q;
+    cin>>q;
+
+    while(q--){
+        ll a,b;
+        cin>>a>>b;
+
+        /*
+            3---> +
+            5---> -
+            0 = wa-xa+yb-zb
+            0 = a(w-x) + b(y-z)
+
+            - ---> 0
+                + --> 0
+                not poss
+            + ---> 0
+                - ---> 0
+                not poss
+            - != 0 && + != 0
+            
+            a==b    +==- else not poss
+            a!=b    abs(a-b)
+        */
+
+        /*
+            a!=b
+                + == -  poss
+                + < -   poss
+                else not poss  
+        */
+
+        if(p == m){
+            yes;
+        }else{
+            if(a == b){
+                no;
+                con;
+            }
+            ll l = (a*b)/__gcd(a,b);
+            ll x = l/a,y=l/b;
+            if(abs(p-m)%abs(x-y) !=0){
+                no;
+            }else{
+                if(abs(p-m)/abs(x-y)*(x+y) <= n){
+                    yes;
+                }else{
+                    no;
+                }
+            }
+        }
+    }
 }
 
 int main()
 {
   //fast;
   int t = 1;
-  cin>>t;
+//   cin>>t;
   while(t--){
     solve();
   }

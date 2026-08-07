@@ -35,23 +35,48 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 
 void solve(){
     ll n;
+    string s;
     cin>>n;
     vl a(n);
     civ(a);
-
-    sort(all(a),greater<ll>());
-    ll sum = accumulate(all(a),0LL);
-    ll rem = sum / 2;
-    ll ans = sum - rem;
-
+    cin>>s;
+    
+    ll q;
+    cin>>q;
+    
+    vl pref(n+1);
+    pref[0] = 0;
+    ll xor0=0,xor1 = 0;
     forn(0,n){
-        if(rem <= 0)
-            break;
-        rem -= a[i];
-        ans++;
+      if(s[i] == '0'){
+        xor0 = xor0^a[i];
+      }else{
+        xor1 = xor1^a[i];
+      }
+      pref[i+1] = pref[i]^a[i];
     }
-    cout<<ans;
-    eline;
+
+    while(q--){
+        ll type;
+        cin>>type;
+
+        if(type == 2){
+          ll num;
+          cin>>num;
+          if(num == 1) cout<<xor1<<" ";
+          else    cout<<xor0<<" ";
+        }else{
+          ll l,r;
+          cin>>l>>r;
+
+          ll xr = pref[r]^pref[l-1];
+          xor0 = xor0^xr;
+          xor1 = xor1^xr;
+        }
+      }
+
+      eline;
+
 }
 
 int main()

@@ -33,24 +33,27 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+
+
 void solve(){
-    ll n;
-    cin>>n;
-    vl a(n);
-    civ(a);
+    ll n,a,b;
+    cin>>n>>a>>b;
+    vl arr(n);
+    civ(arr);
 
-    sort(all(a),greater<ll>());
-    ll sum = accumulate(all(a),0LL);
-    ll rem = sum / 2;
-    ll ans = sum - rem;
-
-    forn(0,n){
-        if(rem <= 0)
-            break;
-        rem -= a[i];
-        ans++;
+    vl suff(n+1);
+    suff[n] = 0;
+    for(ll i=n-1;i>=0;i--){
+      suff[i] = suff[i+1] + arr[i]; 
     }
-    cout<<ans;
+    
+    ll cost = accumulate(arr.begin(),arr.end(),0LL)*b;
+    forn(0,n){
+      ll curr = (arr[i]*(a+b)) + b*abs((suff[i] - ((n-i)*arr[i])));
+      cost = min(cost, curr);
+    }
+
+    cout<<cost;
     eline;
 }
 
