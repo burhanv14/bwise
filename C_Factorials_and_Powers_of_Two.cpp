@@ -1,4 +1,4 @@
-//Code by Burhan Vora - 22ucc123@lnmiit.ac.in
+//Code by Burhanuddin Vora - burhanuddin.vora@gmail.com
 #include<bits/stdc++.h>
 #include<ext/pb_ds/assoc_container.hpp>
 #include<ext/pb_ds/tree_policy.hpp>
@@ -33,9 +33,37 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-void solve(){
-  
+ll setbits(ll n) {
+  return __builtin_popcountll(n); 
 }
+
+void solve() {
+	ll n;
+	cin >> n;
+	vector<ll> fact(15);
+	fact[0] = 1;
+	for (ll i = 1; i <= 14; i++) 
+    fact[i] = fact[i - 1] * i;
+	vector<ll> vec;
+	for (ll i = 3; i <= 14; i++) 
+    vec.push_back(fact[i]); 
+	ll ans = INT_MAX;
+	for (ll mask = 0; mask < (1LL << 12); mask++) {
+		ll sum = 0;
+		ll cnt = 0; 
+		for (ll i = 0; i < 12; i++) {
+			if (mask & (1LL << i)) {
+				sum += vec[i];
+				cnt++;
+			}
+		}
+		if (sum > n) continue; 
+		cnt += setbits(n - sum);
+		ans = min(ans, cnt);
+	}
+  cout<<ans<<endl;
+}
+
 
 int main()
 {
@@ -46,4 +74,4 @@ int main()
     solve();
   }
    return 0;
-}     
+}
