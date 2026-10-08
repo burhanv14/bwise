@@ -34,7 +34,7 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define all(x)            x.begin(),x.end()
 
 void solve(){
-
+  -
 }
 
 int main()
