@@ -33,8 +33,27 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+ll solve(vl &a){
+  ll n = a.size();
+  if(n&1) return 1;
+  return a[n / 2] - a[(n - 1) / 2] + 1; 
+}
+
 void solve(){
-  -
+  ll n;
+  cin>>n;
+  vl x(n);
+  vl y(n);
+
+  forn(0,n){
+    cin>>x[i]>>y[i];
+  }
+
+  sort(all(x));
+  sort(all(y));
+
+  cout<<solve(x)*solve(y);
+  eline;
 }
 
 int main()
@@ -46,4 +65,4 @@ int main()
     solve();
   }
    return 0;
-}
+} 
