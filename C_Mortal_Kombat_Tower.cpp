@@ -33,9 +33,42 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
+
+int fn(int ind,int chance,vi &a){
+  if(ind >= a.size())  return 0;
+
+  int ans = INT_MAX;
+  if(chance == 0){
+    ans = min(fn(ind+2,1,a),fn(ind+1,1,a));
+  }else{
+    ans = a[ind] + fn(ind+1,0,a);
+    if(ind+1 < a.size())  ans = min(ans, a[ind] + a[ind+1] + fn(ind+2,0,a));
+  }
+
+  return ans;
+}
 void solve(){
-    
-  
+  int n;
+  cin>>n;
+  vi a(n);
+  civ(a);
+
+  vector <vector<int>> dp(n+2,vector<int>(2,0));
+  for(int ind = n-1;ind>=0;ind--){
+    for(int chance = 0;chance<=1;chance++){
+      int ans = INT_MAX;
+      if(chance == 0){
+        ans = min(dp[ind+2][1],dp[ind+1][1]);
+      }else{
+        ans = a[ind] + dp[ind+1][0];
+        if(ind+1 < a.size())  ans = min(ans, a[ind] + a[ind+1] + dp[ind+2][0]);
+      }
+      dp[ind][chance] = ans;
+    }
+  }
+
+  cout<<dp[0][1];
+  eline;
 }
 
 int main()
