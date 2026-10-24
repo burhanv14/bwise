@@ -33,8 +33,35 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-void solve(){
-    
+void solve() {
+		int n, k;
+		cin >> n >> k;
+		string s;
+		cin >> s;
+		forn(k,n) {
+				if (s[i] == '1') {
+						if (s[i % k] == '0') { 
+								no;
+								return;
+						}
+						s[i % k] = '1';
+				} else if (s[i] == '0') {
+						if (s[i % k] == '1') { 
+								no;
+								return;
+						}
+						s[i % k] = '0'; 
+				}
+		}
+		int c1 = 0, c0 = 0;
+		forn(0,k) {
+				if (s[i] == '1') ++c1; 
+				if (s[i] == '0') ++c0; 
+		}
+		if (c1 > k / 2 || c0 > k / 2)
+				no;
+		else
+				yes;
 }
 
 int main()
