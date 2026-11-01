@@ -33,9 +33,30 @@ typedef                   tree<long long,null_type,less<long long>,rb_tree_tag,t
 #define pb                emplace_back
 #define all(x)            x.begin(),x.end()
 
-void solve(){
-    
+void solve() {
+    int n;
+    cin >> n;
+    ll prev;
+    cin >> prev;
+    ll mxDiff = 0;
+    for (int i = 1; i < n; i++) {
+        ll x;
+        cin >> x;
+        if (x < prev) {
+            mxDiff = max(mxDiff, prev - x);
+        } else {
+            prev = x;
+        }
+    }
+    int ans = 0;
+    while (mxDiff > 0) {
+        ans++;
+        mxDiff >>= 1;
+    }
+    cout << ans;
+    eline;
 }
+
 
 int main()
 {
